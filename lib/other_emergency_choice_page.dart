@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'questionnaire_page.dart';
 
 class OtherEmergencyDetailPage extends StatelessWidget {
   const OtherEmergencyDetailPage({super.key});
@@ -9,18 +9,8 @@ class OtherEmergencyDetailPage extends StatelessWidget {
     {'label': 'Afección Cardíaca', 'icon': '❤️‍🩹'},
     {'label': 'Psicológicas', 'icon': '🧠'},
     {'label': 'Pérdida de conciencia', 'icon': '🤯'},
+    {'label': 'Intoxicación por sustancias', 'icon': '💊'},
   ];
-
-  Future<void> callNumber(BuildContext context, String phoneNumber) async {
-    final uri = Uri(scheme: 'tel', path: phoneNumber);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Impossible d'ouvrir l'application téléphone")),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +22,12 @@ class OtherEmergencyDetailPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
           child: GestureDetector(
             onTap: () {
-              // Appel direct après choix
-              callNumber(context, "88888");
-              // Tu peux aussi enregistrer le choix ici si besoin
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuestionnairePage(emergencyType: item['label']),
+                ),
+              );
             },
             child: Container(
               padding: const EdgeInsets.all(16),

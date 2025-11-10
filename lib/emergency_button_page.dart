@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'button_countdown.dart';
 
-class AnonimoPage extends StatelessWidget {
-  const AnonimoPage({super.key});
+class EmergencyButtonPage extends StatelessWidget {
+  const EmergencyButtonPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +18,7 @@ class AnonimoPage extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Home()),
-                    );
+                    Navigator.pop(context);
                   },
                 ),
                 const Spacer(),
@@ -38,19 +34,12 @@ class AnonimoPage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 16),
-          // Logo
           Image.asset('assets/logo.png', width: 150, height: 150),
-
-          const SizedBox(height: 8),
-
           const SizedBox(height: 55),
-          // Engrenage avec bouton rouge
-          Center(
-            child: CountdownButton(),
+          const Center(
+            child: SimpleEmergencyButton(), // Remplacé par la version simplifiée
           ),
-
           const Spacer(),
-          // Bouton ¿Qué hacer?
           Padding(
             padding: const EdgeInsets.only(bottom: 32.0),
             child: SizedBox(

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'other_emergency_choice_page.dart';
+import 'questionnaire_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmergencyChoice extends StatefulWidget {
   const EmergencyChoice({super.key});
 
   @override
-  State<EmergencyChoice> createState() => EmergencyChoiceState();
+  _EmergencyChoiceState createState() => _EmergencyChoiceState();
 }
 
-
-class EmergencyChoiceState extends State<EmergencyChoice> {
+class _EmergencyChoiceState extends State<EmergencyChoice> {
   String? selectedType;
 
   final List<Map<String, dynamic>> emergencyTypes = [
@@ -22,17 +22,6 @@ class EmergencyChoiceState extends State<EmergencyChoice> {
     {'label': 'Quemadura', 'icon': '🔥', 'color': Colors.orange},
     {'label': 'Otro', 'icon': '➕', 'color': Colors.red}
   ];
-
-  Future<void> callNumber(String phoneNumber) async {
-    final uri = Uri(scheme: 'tel', path: phoneNumber);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Impossible d'ouvrir l'application téléphone")),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,29 +43,26 @@ class EmergencyChoiceState extends State<EmergencyChoice> {
           ...emergencyTypes.map((item) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
             child: GestureDetector(
-            onTap: () async {
-              setState(() {
-                selectedType = item['label'];
-              });
-              if (item['label'] == 'Otro') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OtherEmergencyDetailPage(),
-                  ),
-                );
-              } else {
-                final type = item['label'];
-                try {
-                  await sendEmergencyMail(type);    // Envoie le mail avec le type sélectionné
-                  await callNumber("88888");         // Lance ensuite l’appel téléphone
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Erreur: $e")),
+              onTap: () async {
+                setState(() {
+                  selectedType = item['label'];
+                });
+                if (item['label'] == 'Otro') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OtherEmergencyDetailPage(),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuestionnairePage(emergencyType: item['label']),
+                    ),
                   );
                 }
-              }
-            },
+              },
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -119,18 +105,17 @@ class EmergencyChoiceState extends State<EmergencyChoice> {
   }
 }
 
-
-Future<void> sendEmergencyMail(String emergencyType) async {
-  final url = Uri.parse('http://10.0.2.2:3000/sendmail');
+Future<void> sendEmergencyReport(Map<String, dynamic> report) async {
+  final url = Uri.parse('http://10.125.81.21:3000/sendmail');
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
-      'subject': 'Alerte urgence',
-      'text': "Type d'urgence signalé : $emergencyType"
+      'subject': 'Ugencia',
+      'text': jsonEncode(report),
     }),
   );
   if (response.statusCode != 200) {
-    throw Exception('Échec envoi mail');
+    throw Exception('Échec envoi rapport');
   }
 }
