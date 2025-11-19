@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart'; // For location
+import 'package:flutter/services.dart'; // Fixed: For SystemNavigator
+
 import 'emergency_button_page.dart';
 
 void main() {
@@ -38,7 +41,142 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadSavedData();
+    _checkTermsAndLocation();
+  }
+
+  Future<void> _checkTermsAndLocation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool termsAccepted = prefs.getBool('terms_accepted') ?? false;
+
+    if (!termsAccepted) {
+      _showTermsDialog(prefs);
+      return;
+    }
+
+    _requestLocationPermission();
+  }
+
+  void _showTermsDialog(SharedPreferences prefs) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Condiciones de Uso'),
+          content: const Text(
+            'Al usar esta aplicación, usted acepta compartir datos sensibles como su ubicación y detalles de emergencia para fines de seguridad. '
+            'Estos datos se usarán solo para alertar a los servicios de emergencia. '
+            '(Placeholder: Añade aquí las condiciones detalladas cuando las tengas).'
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                SystemNavigator.pop(); // Works now with correct import
+              },
+            ),
+            TextButton(
+              child: const Text('Aceptar'),
+              onPressed: () async {
+                await prefs.setBool('terms_accepted', true);
+                Navigator.of(context).pop();
+                _requestLocationPermission();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _requestLocationPermission() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Activar Localización'),
+            content: const Text('Esta aplicación requiere el GPS activado para funcionar.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  SystemNavigator.pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Activar'),
+                onPressed: () async {
+                  await Geolocator.openLocationSettings();
+                  Navigator.of(context).pop();
+                  _requestLocationPermission();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.denied) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Permiso de Localización Requerido'),
+            content: const Text('Esta aplicación necesita acceso a su ubicación para alertar a los servicios de emergencia con precisión.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Me niego a compartir mi ubicación'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  SystemNavigator.pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Autorizar'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await Geolocator.requestPermission();
+                  _loadSavedData();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else if (permission == LocationPermission.deniedForever) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Permiso Denegado Permanentemente'),
+            content: const Text('Vaya a los ajustes de la app para autorizar la ubicación.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Abrir Ajustes'),
+                onPressed: () async {
+                  await Geolocator.openAppSettings();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      _loadSavedData();
+    }
   }
 
   Future<void> _loadSavedData() async {
@@ -81,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: _firstNameController,
                     decoration: const InputDecoration(
-                      labelText: 'Nombre', // Traduit
+                      labelText: 'Nombre',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -92,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: _lastNameController,
                     decoration: const InputDecoration(
-                      labelText: 'Apellido', // Traduit
+                      labelText: 'Apellido',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -103,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: _idController,
                     decoration: const InputDecoration(
-                      labelText: 'Número de Documento de Identidad', // Traduit
+                      labelText: 'Número de Documento de Identidad',
                       border: OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.number,
@@ -131,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                           _lastNameController.text.isEmpty ||
                           _idController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Por favor, complete todos los campos')), // Traduit
+                          const SnackBar(content: Text('Por favor, complete todos los campos')),
                         );
                         return;
                       }

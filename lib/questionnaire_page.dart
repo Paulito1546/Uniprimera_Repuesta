@@ -150,7 +150,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               TextField(
                 controller: _descriptionController,
                 maxLines: 5,
-                maxLength: 100 * 5,
+                maxLength: 100,
               ),
               const SizedBox(height: 16),
               ElevatedButton(

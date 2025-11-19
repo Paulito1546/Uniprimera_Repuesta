@@ -19,7 +19,10 @@ class SimpleEmergencyButton extends StatelessWidget {
       ),
     );
   }
-}import 'package:flutter/material.dart';
+}// lib/config.dart
+const String SERVER_IP = '192.168.113.21'; // Ta nouvelle IP ici (change si besoin)
+const String SERVER_PORT = '3000';
+const String SERVER_URL = 'https://uniprimer.loca.lt/sendmail';import 'package:flutter/material.dart';
 
 class ConfirmationPage extends StatelessWidget {
   final Map<String, dynamic> report;
@@ -187,6 +190,7 @@ class EmergencyButtonPage extends StatelessWidget {
     );
   }
 }import 'package:flutter/material.dart';
+import 'config.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'other_emergency_choice_page.dart';
 import 'questionnaire_page.dart';
@@ -294,7 +298,8 @@ class _EmergencyChoiceState extends State<EmergencyChoice> {
 }
 
 Future<void> sendEmergencyReport(Map<String, dynamic> report) async {
-  final url = Uri.parse('http://10.0.2.2:3000/sendmail');
+  // Utilise ton URL Localtunnel (ex. : https://uniprimer.loca.lt/sendmail)
+  final url = Uri.parse('$SERVER_URL/sendmail');
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
@@ -330,7 +335,10 @@ Future<void> sendMailFromFlutter() async {
 }
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'emergency_button_page.dart'; // Correct import
+import 'package:geolocator/geolocator.dart'; // For location
+import 'package:flutter/services.dart'; // Fixed: For SystemNavigator
+
+import 'emergency_button_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -368,7 +376,142 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadSavedData();
+    _checkTermsAndLocation();
+  }
+
+  Future<void> _checkTermsAndLocation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool termsAccepted = prefs.getBool('terms_accepted') ?? false;
+
+    if (!termsAccepted) {
+      _showTermsDialog(prefs);
+      return;
+    }
+
+    _requestLocationPermission();
+  }
+
+  void _showTermsDialog(SharedPreferences prefs) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Condiciones de Uso'),
+          content: const Text(
+            'Al usar esta aplicación, usted acepta compartir datos sensibles como su ubicación y detalles de emergencia para fines de seguridad. '
+            'Estos datos se usarán solo para alertar a los servicios de emergencia. '
+            '(Placeholder: Añade aquí las condiciones detalladas cuando las tengas).'
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                SystemNavigator.pop(); // Works now with correct import
+              },
+            ),
+            TextButton(
+              child: const Text('Aceptar'),
+              onPressed: () async {
+                await prefs.setBool('terms_accepted', true);
+                Navigator.of(context).pop();
+                _requestLocationPermission();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _requestLocationPermission() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Activar Localización'),
+            content: const Text('Esta aplicación requiere el GPS activado para funcionar.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  SystemNavigator.pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Activar'),
+                onPressed: () async {
+                  await Geolocator.openLocationSettings();
+                  Navigator.of(context).pop();
+                  _requestLocationPermission();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.denied) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Permiso de Localización Requerido'),
+            content: const Text('Esta aplicación necesita acceso a su ubicación para alertar a los servicios de emergencia con precisión.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Me niego a compartir mi ubicación'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  SystemNavigator.pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Autorizar'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  await Geolocator.requestPermission();
+                  _loadSavedData();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else if (permission == LocationPermission.deniedForever) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Permiso Denegado Permanentemente'),
+            content: const Text('Vaya a los ajustes de la app para autorizar la ubicación.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Abrir Ajustes'),
+                onPressed: () async {
+                  await Geolocator.openAppSettings();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      _loadSavedData();
+    }
   }
 
   Future<void> _loadSavedData() async {
@@ -411,7 +554,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: _firstNameController,
                     decoration: const InputDecoration(
-                      labelText: 'Prénom',
+                      labelText: 'Nombre',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -422,7 +565,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: _lastNameController,
                     decoration: const InputDecoration(
-                      labelText: 'Nom',
+                      labelText: 'Apellido',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -433,7 +576,7 @@ class _HomePageState extends State<HomePage> {
                   child: TextField(
                     controller: _idController,
                     decoration: const InputDecoration(
-                      labelText: 'Numéro de document d\'identité',
+                      labelText: 'Número de Documento de Identidad',
                       border: OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.number,
@@ -461,14 +604,14 @@ class _HomePageState extends State<HomePage> {
                           _lastNameController.text.isEmpty ||
                           _idController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Veuillez remplir tous les champs')),
+                          const SnackBar(content: Text('Por favor, complete todos los campos')),
                         );
                         return;
                       }
                       await _saveData();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const EmergencyButtonPage()), // Correct class
+                        MaterialPageRoute(builder: (context) => const EmergencyButtonPage()),
                       );
                     },
                     child: const Text('Continuar'),
@@ -542,7 +685,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'emergency_choice_page.dart'; // Pour sendEmergencyReport
+import 'emergency_choice_page.dart';
 import 'dart:convert';
 import 'confirmation_page.dart';
 
@@ -567,27 +710,27 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
 
   Future<Map<String, dynamic>> _buildReport() async {
     final prefs = await SharedPreferences.getInstance();
-    final firstName = prefs.getString('first_name') ?? 'Inconnu';
-    final lastName = prefs.getString('last_name') ?? 'Inconnu';
-    final idNumber = prefs.getString('id_number') ?? 'Inconnu';
+    final firstName = prefs.getString('first_name') ?? 'Desconocido'; // Traduit "Inconnu"
+    final lastName = prefs.getString('last_name') ?? 'Desconocido';
+    final idNumber = prefs.getString('id_number') ?? 'Desconocido';
 
     String location = 'X';
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) throw Exception('Service localisation désactivé');
+      if (!serviceEnabled) throw Exception('Servicio de localización desactivado'); // Traduit
 
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) throw Exception('Permission refusée');
+        if (permission == LocationPermission.denied) throw Exception('Permiso denegado');
       }
 
-      if (permission == LocationPermission.deniedForever) throw Exception('Permission refusée définitivement');
+      if (permission == LocationPermission.deniedForever) throw Exception('Permiso denegado permanentemente');
 
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       location = 'lat:${position.latitude}, long:${position.longitude}';
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erreur localisation: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error de localización: $e'))); // Traduit
     }
 
     return {
@@ -599,7 +742,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       '¿Responde de manera coherente a preguntas sencillas?': coherent == null ? 'X' : (coherent! ? 'Si' : 'No'),
       'Más': _descriptionController.text.isEmpty ? 'X' : _descriptionController.text,
       'Localisation': location,
-      'Type': widget.emergencyType, // Bonus: Ajouté pour contexte
+      'Type': widget.emergencyType,
     };
   }
 
@@ -607,9 +750,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
     setState(() {
       isSelfEmergency = answer;
       if (answer) {
-        showDescription = true; // Passer directement à description
+        showDescription = true;
       } else {
-        showAdditionalQuestions = true; // Afficher questions supplémentaires
+        showAdditionalQuestions = true;
       }
     });
   }
@@ -620,7 +763,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       if (question == '¿Está inconsciente?') unconscious = answer;
       if (question == '¿Responde de manera coherente a preguntas sencillas?') coherent = answer;
 
-      if (answer) { // Si "Sí" à n'importe laquelle, arrêter et passer à description
+      if (answer) {
         stoppedEarly = true;
         showDescription = true;
       }
@@ -630,7 +773,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Questionnaire')),
+      appBar: AppBar(title: const Text('Cuestionario')), // Traduit
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -653,9 +796,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', false), child: const Text('Sí')),
+                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', true), child: const Text('Sí')), // Correction inversion si besoin
                   const SizedBox(width: 16),
-                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', true), child: const Text('No')),
+                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', false), child: const Text('No')),
                 ],
               ),
             ],
@@ -685,28 +828,23 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             ],
             if (showDescription || (coherent != null && !stoppedEarly)) ...[
               const SizedBox(height: 24),
-              const Text('Précisez ce qu\'il s\'est passé (max 100 mots):', style: TextStyle(fontSize: 18)),
+              const Text('Especifique lo que sucedió (máx. 100 palabras):', style: TextStyle(fontSize: 18)), // Traduit
               TextField(
                 controller: _descriptionController,
                 maxLines: 5,
-                maxLength: 100 * 5, // Approximation pour 100 mots (ajuste si besoin)
+                maxLength: 100,
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   if (isSelfEmergency == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez répondre à la première question')),
-                    );
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Responda a la primera pregunta'))); // Traduit
                     return;
                   }
-
                   try {
                     final report = await _buildReport();
                     await sendEmergencyReport(report);
-                    await callNumber(context, "88888");
-
-                    // Naviguer vers la page de confirmation
+                    await callNumber(context, "6013165000,88888");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -717,9 +855,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                       ),
                     );
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Erreur : $e')),
-                    );
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'))); // Traduit
                   }
                 },
                 child: const Text('Enviar'),
@@ -738,7 +874,7 @@ Future<void> callNumber(BuildContext context, String phoneNumber) async {
     await launchUrl(uri);
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Impossible d'ouvrir l'application téléphone")),
+      const SnackBar(content: Text('Imposible abrir la aplicación de teléfono')), // Traduit
     );
   }
 }

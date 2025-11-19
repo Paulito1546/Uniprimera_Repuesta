@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'config.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'other_emergency_choice_page.dart';
 import 'questionnaire_page.dart';
@@ -106,16 +107,23 @@ class _EmergencyChoiceState extends State<EmergencyChoice> {
 }
 
 Future<void> sendEmergencyReport(Map<String, dynamic> report) async {
-  final url = Uri.parse('http://10.125.81.21:3000/sendmail');
+  final serverUrl = await getServerUrl();  // Récupère l'URL avec détection
+  final url = Uri.parse(serverUrl);  // Pas de /sendmail en plus, car déjà dans l'URL
+  print('Utilisation de l\'URL : $serverUrl');  // Log pour vérifier
+
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
-      'subject': 'Ugencia',
+      'to': 'paul.emptoz@gmail.com',  // Ajoute ça si manquant, comme discuté précédemment
+      'subject': 'Alerte urgence',
       'text': jsonEncode(report),
     }),
   );
+
+  print('Réponse serveur : Status ${response.statusCode} - Body: ${response.body}');  // Log détaillé pour erreurs
+
   if (response.statusCode != 200) {
-    throw Exception('Échec envoi rapport');
+    throw Exception('Échec envoi rapport : ${response.body}');
   }
 }
