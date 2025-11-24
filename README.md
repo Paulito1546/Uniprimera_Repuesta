@@ -1,4 +1,4 @@
-# README profesional de UniPrimera Respuesta
+# UniPrimera Respuesta
 
 ***
 
@@ -6,11 +6,11 @@
 
 ## Descripción general del proyecto
 
-UniPrimera Respuesta es una iniciativa desarrollada por un equipo interdisciplinario para enfrentar la reacción tardía ante emergencias en campus universitarios. El proyecto responde a la necesidad institucional de articular un llamado de auxilio rápido y eficiente sin recurrir al teléfono, permitiendo la asistencia de emergencias mediante una app móvil y un botón físico. La solución integra rutas de acción definidas, activación de alertas inmediatas y coordinación con el Centro de Prevención y Respuesta a Emergencias (CEPRAE) de la universidad. Gracias al uso de tecnología móvil y nodos físicos, se busca fortalecer la cultura de prevención, aumentar la resiliencia institucional y posicionar a la universidad como actor activo en la gestión de riesgo y atención temprana de emergencias.[1][2]
+UniPrimera Respuesta es una iniciativa desarrollada por un equipo interdisciplinario para enfrentar la reacción tardía ante emergencias en campus universitarios. El proyecto responde a la necesidad institucional de articular un llamado de auxilio rápido y eficiente sin recurrir al teléfono, permitiendo la asistencia de emergencias mediante una app móvil y un botón físico. La solución integra rutas de acción definidas, activación de alertas inmediatas y coordinación con el Centro de Prevención y Respuesta a Emergencias (CEPRAE) de la universidad. Gracias al uso de tecnología móvil y nodos físicos, se busca fortalecer la cultura de prevención, aumentar la resiliencia institucional y posicionar a la universidad como actor activo en la gestión de riesgo y atención temprana de emergencias.
 
 ## Problema que resuelve
 
-En los campus universitarios, la atención de emergencias suele enfrentar retrasos significativos debido a la desarticulación de canales de alerta. El sistema tradicional demanda el uso de teléfono y procedimientos manuales que resultan poco ágiles ante situaciones de riesgo, poniendo en peligro la integridad de los estudiantes, docentes y personal administrativo. **UniPrimera Respuesta** soluciona este problema mediante un sistema automatizado que reduce el tiempo de reacción desde la ocurrencia de la emergencia hasta la activación del protocolo de atención institucional, centralizando la alerta y facilitando la comunicación directa y efectiva entre los usuarios y los responsables de atención primaria.[2][1]
+En los campus universitarios, la atención de emergencias suele enfrentar retrasos significativos debido a la desarticulación de canales de alerta. El sistema tradicional demanda el uso de teléfono y procedimientos manuales que resultan poco ágiles ante situaciones de riesgo, poniendo en peligro la integridad de los estudiantes, docentes y personal administrativo. **UniPrimera Respuesta** soluciona este problema mediante un sistema automatizado que reduce el tiempo de reacción desde la ocurrencia de la emergencia hasta la activación del protocolo de atención institucional, centralizando la alerta y facilitando la comunicación directa y efectiva entre los usuarios y los responsables de atención primaria.
 
 ## Justificación del valor aportado
 
@@ -18,23 +18,22 @@ En los campus universitarios, la atención de emergencias suele enfrentar retras
 - Facilita la inclusión de toda la comunidad universitaria como potenciales primeros respondedores.
 - Promueve una cultura organizacional proactiva y resiliente.
 - Implementa tecnología accesible y escalable.
-- Reduce el riesgo de omisión o demoras por desinformación o falta de acceso.[1][2]
+- Reduce el riesgo de omisión o demoras por desinformación o falta de acceso
 
 ## Relación con las necesidades del usuario/cliente
 
-El producto responde directamente a los requerimientos expresados por usuarios (estudiantes, docentes, administrativos) y responsables institucionales en cuanto a seguridad y respuesta ante emergencias. La solución privilegia la usabilidad, rapidez, privacidad y accesibilidad, integrando procesos que facilitan el reporte de incidencias y la activación de rutas de atención.[2][1]
-
+El producto responde directamente a los requerimientos expresados por usuarios (estudiantes, docentes, administrativos) y responsables institucionales en cuanto a seguridad y respuesta ante emergencias. La solución privilegia la usabilidad, rapidez, privacidad y accesibilidad, integrando procesos que facilitan el reporte de incidencias y la activación de rutas de atención.
 ## Objetivos del proyecto
 
 ### Objetivo general
-Desarrollar una solución tecnológica integrada (app móvil y botón físico) que articule la reacción ante emergencias en campus universitario, facilitando el llamado rápido y la coordinación con entidades responsables de atención.[1]
+Desarrollar una solución tecnológica integrada (app móvil y botón físico) que articule la reacción ante emergencias en campus universitario, facilitando el llamado rápido y la coordinación con entidades responsables de atención.
 
 ### Objetivos específicos
 - Implementar una app móvil con flujos optimizados para reportar incidencias en tres clics o menos.
 - Diseñar e instalar prototipos funcionales de botones físicos ubicados en puntos estratégicos del campus.
 - Integrar la identificación y geolocalización automática de usuarios al reporte de emergencia.
 - Establecer protocolos ágiles de comunicación y validación con el CEPRAE.
-- Probar el sistema en simulacros reales y recoger feedback para validación y mejora continua.[2][1]
+- Probar el sistema en simulacros reales y recoger feedback para validación y mejora continua.
 
 ## Tecnologías utilizadas
 
@@ -73,7 +72,7 @@ El sistema está compuesto por los siguientes módulos:
 3. La app envía un JSON al backend mediante HTTP POST.
 4. El backend procesa el reporte y envía una notificación por email.
 5. Se activa una llamada automática al protocolo de extensión CEPRAE.
-6. El usuario recibe confirmación y opción de volver al inicio.[3][4][2]
+6. El usuario recibe confirmación y opción de volver al inicio.
 
 ## Instalación y configuración en entorno local
 
@@ -82,7 +81,7 @@ El sistema está compuesto por los siguientes módulos:
 - Node.js
 - Git
 - Terminal/Shell con permisos de administrador
-- Acceso a internet para descargar dependencias y exponer servidor[4][3][2]
+- Acceso a internet para descargar dependencias y exponer servidor
 
 ### Dependencias principales
 - Flutter: `http`, `shared_preferences`, `geolocator`, `device_info_plus`, `url_launcher`
@@ -142,11 +141,11 @@ flutter run
 
 **Ejemplo de interacción:**  
 Usuario identifica accidente químico, pulsa botón, selecciona \"Químico\", describe la situación y envía el reporte.  
-La app demuestra mensaje \"¡Alerta enviada con éxito!\" y activa extensión 88888.[4][2]
+La app demuestra mensaje \"¡Alerta enviada con éxito!\" y activa extensión 88888.
 
 ## Explicación de la interfaz y/o endpoints
 
-- **Pantalla de inicio:** Ingreso de datos personales, acepta términos y permisos.[4][2]
+- **Pantalla de inicio:** Ingreso de datos personales, acepta términos y permisos.
 - **Botón de emergencia:** Lleva a la selección del tipo de incidente.
 - **Selección de emergencia y cuestionario:** Interactivo y adaptativo según la situación.
 - **Envío de reporte:** POST HTTP hacia el servidor, con datos estructurados en JSON.
@@ -158,12 +157,12 @@ El desarrollo fue guiado por la metodología **Design Thinking**, abordando cinc
 2. *Definir* el problema central de desarticulación ante emergencias.
 3. *Idear* alternativas innovadoras de respuesta y reporte.
 4. *Prototipar* simulacros, app y esquema físico para validación rápida.
-5. *Testear* funcionalidades con actores clave y diseñar iteraciones según feedback.[1]
+5. *Testear* funcionalidades con actores clave y diseñar iteraciones según feedback.
 
 ## Evidencias de validación con usuarios, expertos o actores relevantes
 
 El proceso incluyó entrevistas con miembros de la comunidad, simulacros internos y consulta con responsables de CEPRAE. El feedback recogido respaldó el valor del sistema propuesto.  
-**Nota:** Si existe material o cifras concretas de validación no presente en archivos, indícalo en la sección \"Información pendiente\".[1]
+**Nota:** Si existe material o cifras concretas de validación no presente en archivos, indícalo en la sección \"Información pendiente\".
 
 ## Relación explícita con los criterios del jurado
 
@@ -171,7 +170,7 @@ El proceso incluyó entrevistas con miembros de la comunidad, simulacros interno
 - Desarrollo de prototipo funcional validado con actores relevantes.
 - Avance significativo en construcción, materiales y despliegue de sistema.
 - Aplicación interdisciplinaria (ingeniería civil, mecatrónica, eléctrica, ciencias sociales).
-- Trabajo colaborativo integrando aportes de todos los miembros.[1]
+- Trabajo colaborativo integrando aportes de todos los miembros.
 
 ## Roadmap / Mejoras futuras
 
@@ -180,7 +179,7 @@ El proceso incluyó entrevistas con miembros de la comunidad, simulacros interno
 - Adjuntar multimedia y análisis IA.
 - Expansión a iOS, web.
 - Dashboard de estadísticas y mapas de calor.
-- Mejoras de accesibilidad y seguridad avanzada.[2]
+- Mejoras de accesibilidad y seguridad avanzada.
 
 ## Autores, roles y contribuciones individuales
 
