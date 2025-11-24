@@ -59,33 +59,49 @@ Estas adiciones transformarían el prototipo en una solución completa, escalabl
 
 El repositorio está disponible en GitHub (asumiendo URL: https://github.com/TonUsername/Uniprimera_Repuesta). Sigue estos pasos para clonar, instalar y ejecutar. Requiere Flutter instalado (https://flutter.dev/install). Dos opciones: emulador (PC) o teléfono real (Android).
 
-**Requisitos Comunes**:  
+**Requisitos Comunes** :  
 - Instala Flutter (versión ≥3.9.2).  
 - Git para clonar.  
 - Terminal para comandos.
 
 **Etapa 1 : Clonar el Repositorio**  
 ```bash
-git clone https://github.com/Paulito1546/Uniprimera_Repuesta.git
+git clone https://github.com/TonUsername/Uniprimera_Repuesta.git
 cd Uniprimera_Repuesta
 flutter pub get  # Instala dependencias (http, geolocator, etc.)
 ```
 
-**Opción 1 : Ejecutar en emulador (en PC)**  
+**Etapa 2 : Configurar y Ejecutar el Servidor Backend (`server.js`)**  
+El servidor Node.js es necesario para recibir y procesar los reportes (envío de correo).  
+1. Ve a la carpeta del servidor (si está separada, o dentro del repo).  
+2. Instala dependencias: `npm install express` (si no está instalado).  
+3. Modifica `server.js` si es necesario (ejemplo: escucha en 0.0.0.0:3000).  
+4. Lanza: `node server.js` – debe mostrar "Servidor escuchando en http://0.0.0.0:3000".
+
+**Etapa 3 : Configurar Localtunnel para Acceso Público**  
+Localtunnel crea un túnel para exponer tu servidor local (para que la app pueda enviar desde el teléfono).  
+1. Instala: `npm install -g localtunnel` (globalmente).  
+2. Lanza: `lt --port 3000 --subdomain uniprimer` (cambia `uniprimer` por tu subdominio preferido – ej.: uniprimer2025 si está ocupado).  
+3. Obtén la URL: ej. `https://uniprimer.loca.lt` – úsala en el código de la app (`sendEmergencyReport`: `Uri.parse('https://uniprimer.loca.lt/sendmail')`).  
+4. Mantén la terminal abierta (túnel activo).
+
+**Opción 1 : Ejecutar en Emulador (en PC)**  
 Ideal para pruebas rápidas, sin teléfono.  
-1. Lanza emulador: `flutter emulators --launch ton_emulador` (ej.: pixel_6_api_33).  
+1. Lanza emulador: `flutter emulators --launch pixel_6_api_33` (o tu emulador).  
 2. Ejecuta app: `flutter run`.  
 3. Prueba: La app se abre en emulador. Para envío de correo, inicia tu servidor local (`node server.js`) y Localtunnel/Ngrok (como antes) para URL pública.  
 [Espacio para foto: Captura del emulador con la app en ejecución].
 
 **Opción 2 : Ejecutar en Teléfono Real (Android)**  
 Para pruebas reales (localización GPS, llamada).  
-1. Activa "Modo Desarrollador": Ajustes > Acerca de > Toca 7 veces "Número de compilación".  
-2. Activa "Depuración USB" y conecta teléfono vía USB.  
-3. Construye APK: `flutter build apk --release` (genera `build/app/outputs/flutter-apk/app-release.apk`).  
-4. Transfiere APK al teléfono (por USB/email) e instala (activa "Fuentes desconocidas" si es necesario).  
-5. Lanza app. Para envío, asegura servidor + Localtunnel iniciado en PC.  
+1. Descarga el APK desde GitHub (ya en `/build/app/outputs/flutter-apk/app-release.apk`).  
+2. Activa "Orígenes desconocidos" (Ajustes > Seguridad).  
+3. Instala el APK (por USB/email).  
+4. Lanza app. Para envío, asegúrate que servidor + Localtunnel están activos en PC.  
 [Espacio para foto: Captura del teléfono con la app instalada].
 
-**Solución de problemas**: Si el envío falla, verifica la URL del servidor en código y que Localtunnel esté activo. Para iOS, añade configuración Xcode (no implementado por ahora).
+**Solución de problemas** : Si el envío falla, verifica la URL del servidor en el código y que Localtunnel esté activo. Para iOS, añade configuración Xcode (no implementado todavía).
+.
+
+
 
