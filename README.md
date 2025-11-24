@@ -162,7 +162,6 @@ El desarrollo fue guiado por la metodología **Design Thinking**, abordando cinc
 ## Evidencias de validación con usuarios, expertos o actores relevantes
 
 El proceso incluyó entrevistas con miembros de la comunidad, simulacros internos y consulta con responsables de CEPRAE. El feedback recogido respaldó el valor del sistema propuesto.  
-**Nota:** Si existe material o cifras concretas de validación no presente en archivos, indícalo en la sección \"Información pendiente\".
 
 ## Relación explícita con los criterios del jurado
 
@@ -194,12 +193,5 @@ El proceso incluyó entrevistas con miembros de la comunidad, simulacros interno
 | Juan José Vargas León               | juvargasle@unal.edu.co   | Ingeniería Civil                    |
 
 
-
-## Información pendiente
-
-- No se encontraron cifras detalladas de validación con usuarios reales (ejemplo: estadísticas de uso, encuestas de satisfacción).
-- No se especifican contribuciones individuales más allá de nombre/carrera/correo.
-- No consta licencia formal en los documentos revisados.
-- No aparecen capturas de pantalla: se recomienda incluirlas en futuras ediciones.
 
 
