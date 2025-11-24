@@ -107,21 +107,21 @@ class _EmergencyChoiceState extends State<EmergencyChoice> {
 }
 
 Future<void> sendEmergencyReport(Map<String, dynamic> report) async {
-  final serverUrl = await getServerUrl();  // Récupère l'URL avec détection
-  final url = Uri.parse(serverUrl);  // Pas de /sendmail en plus, car déjà dans l'URL
-  print('Utilisation de l\'URL : $serverUrl');  // Log pour vérifier
+  final serverUrl = await getServerUrl();  // Get the URL con detection
+  final url = Uri.parse(serverUrl);  
+  print('Utilisation de l\'URL : $serverUrl');  // Log para verificar
 
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
-      'to': 'paul.emptoz@gmail.com',  // Ajoute ça si manquant, comme discuté précédemment
-      'subject': 'Alerte urgence',
+      'to': 'paul.emptoz@gmail.com',  
+      'subject': 'Alerta de urgencia',
       'text': jsonEncode(report),
     }),
   );
 
-  print('Réponse serveur : Status ${response.statusCode} - Body: ${response.body}');  // Log détaillé pour erreurs
+  print('Réponse serveur : Status ${response.statusCode} - Body: ${response.body}');  // Detailed log for errors
 
   if (response.statusCode != 200) {
     throw Exception('Échec envoi rapport : ${response.body}');

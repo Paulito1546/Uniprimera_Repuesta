@@ -1,8 +1,8 @@
 import 'package:device_info_plus/device_info_plus.dart';
-import 'dart:io';  // Pour Platform
+import 'dart:io';  
 
-const String LOCALTUNNEL_URL = 'https://uniprimer.loca.lt/sendmail';  // Ton URL principale, gardée telle quelle
-const String EMULATOR_FALLBACK_URL = 'http://10.0.2.2:3000/sendmail';  // Optionnel : Fallback si issues sur émulateur
+const String LOCALTUNNEL_URL = 'https://uniprimer.loca.lt/sendmail';  // My main URL
+const String EMULATOR_FALLBACK_URL = 'http://10.0.2.2:3000/sendmail';  // Optional : Fallback if it's on emulator
 
 Future<String> getServerUrl() async {
   final deviceInfo = DeviceInfoPlugin();
@@ -16,12 +16,9 @@ Future<String> getServerUrl() async {
     isPhysical = iosInfo.isPhysicalDevice ?? false;
   }
 
-  // Log pour debug : Affiche dans la console si émulateur ou physique
-  print('Exécution sur : ${isPhysical ? "appareil physique" : "émulateur/simulateur"}');
+  // Log for debug : Sgow in the console if emulator ou physical
+  print('Execución sobre : ${isPhysical ? "Dispositivo físico" : "emulator/simulator"}');
 
-  // Par défaut, utilise LocalTunnel partout
+  // By default, Localtunnal everywhere
   return LOCALTUNNEL_URL;
-
-  // Optionnel : Si tu rencontres des issues sur émulateur, décommente ça pour fallback
-  // return isPhysical ? LOCALTUNNEL_URL : EMULATOR_FALLBACK_URL;
 }

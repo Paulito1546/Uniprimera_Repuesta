@@ -37,7 +37,7 @@ class EmergencyButtonPage extends StatelessWidget {
           Image.asset('assets/logo.png', width: 150, height: 150),
           const SizedBox(height: 55),
           const Center(
-            child: SimpleEmergencyButton(), // Remplacé par la version simplifiée
+            child: SimpleEmergencyButton(), // Replaced for the simplified version
           ),
           const Spacer(),
           Padding(

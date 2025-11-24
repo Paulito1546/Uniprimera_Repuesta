@@ -21,7 +21,7 @@ class ConfirmationPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Icône de succès
+                // Success
                 const Icon(
                   Icons.check_circle_outline,
                   color: Colors.green,
@@ -29,7 +29,7 @@ class ConfirmationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
 
-                // Titre
+                // Title
                 const Text(
                   '¡Alerta enviada con éxito!',
                   style: TextStyle(
@@ -41,7 +41,7 @@ class ConfirmationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // Sous-titre
+                // Sub-title
                 Text(
                   'Tipo de emergencia: $emergencyType',
                   style: const TextStyle(fontSize: 20, color: Colors.black87),
@@ -59,7 +59,7 @@ class ConfirmationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Message de confirmation
+                // Message of confirmation
                 const Text(
                   'El equipo de emergencia ha sido notificado.\n'
                   'Se ha realizado una llamada al número de extensión 88888.\n'
@@ -69,7 +69,7 @@ class ConfirmationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 48),
 
-                // Bouton retour
+                // Button of return
                 SizedBox(
                   width: 280,
                   height: 56,
@@ -83,7 +83,7 @@ class ConfirmationPage extends StatelessWidget {
                       elevation: 4,
                     ),
                     onPressed: () {
-                      // Retour à l'écran principal (HomePage)
+                      // Go back to the principal screen (HomePage)
                       Navigator.popUntil(context, (route) => route.isFirst);
                     },
                     child: const Text(

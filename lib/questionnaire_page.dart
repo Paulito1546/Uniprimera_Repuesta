@@ -28,14 +28,14 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
 
   Future<Map<String, dynamic>> _buildReport() async {
     final prefs = await SharedPreferences.getInstance();
-    final firstName = prefs.getString('first_name') ?? 'Desconocido'; // Traduit "Inconnu"
+    final firstName = prefs.getString('first_name') ?? 'Desconocido'; 
     final lastName = prefs.getString('last_name') ?? 'Desconocido';
     final idNumber = prefs.getString('id_number') ?? 'Desconocido';
 
     String location = 'X';
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) throw Exception('Servicio de localización desactivado'); // Traduit
+      if (!serviceEnabled) throw Exception('Servicio de localización desactivado'); 
 
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
@@ -48,7 +48,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       location = 'lat:${position.latitude}, long:${position.longitude}';
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error de localización: $e'))); // Traduit
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error de localización: $e'))); 
     }
 
     return {
@@ -59,8 +59,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
       '¿Está inconsciente?': unconscious == null ? 'X' : (unconscious! ? 'Si' : 'No'),
       '¿Responde de manera coherente a preguntas sencillas?': coherent == null ? 'X' : (coherent! ? 'Si' : 'No'),
       'Más': _descriptionController.text.isEmpty ? 'X' : _descriptionController.text,
-      'Localisation': location,
-      'Type': widget.emergencyType,
+      'Localización': location,
+      'Tipo': widget.emergencyType,
     };
   }
 
@@ -114,9 +114,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', true), child: const Text('Sí')), // Correction inversion si besoin
+                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', false), child: const Text('Sí')), 
                   const SizedBox(width: 16),
-                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', false), child: const Text('No')),
+                  ElevatedButton(onPressed: () => _handleAdditionalQuestion('¿Respira?', true), child: const Text('No')),
                 ],
               ),
             ],
@@ -146,7 +146,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             ],
             if (showDescription || (coherent != null && !stoppedEarly)) ...[
               const SizedBox(height: 24),
-              const Text('Especifique lo que sucedió (máx. 100 palabras):', style: TextStyle(fontSize: 18)), // Traduit
+              const Text('Especifique lo que sucedió (máx. 100 palabras):', style: TextStyle(fontSize: 18)), 
               TextField(
                 controller: _descriptionController,
                 maxLines: 5,
@@ -156,7 +156,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               ElevatedButton(
                 onPressed: () async {
                   if (isSelfEmergency == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Responda a la primera pregunta'))); // Traduit
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Responda a la primera pregunta'))); 
                     return;
                   }
                   try {
@@ -173,7 +173,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                       ),
                     );
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'))); // Traduit
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'))); 
                   }
                 },
                 child: const Text('Enviar'),
@@ -192,7 +192,7 @@ Future<void> callNumber(BuildContext context, String phoneNumber) async {
     await launchUrl(uri);
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Imposible abrir la aplicación de teléfono')), // Traduit
+      const SnackBar(content: Text('Imposible abrir la aplicación de teléfono')), 
     );
   }
 }
