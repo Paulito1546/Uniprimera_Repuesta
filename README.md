@@ -159,6 +159,43 @@ El desarrollo fue guiado por la metodología **Design Thinking**, abordando cinc
 4. *Prototipar* simulacros, app y esquema físico para validación rápida.
 5. *Testear* funcionalidades con actores clave y diseñar iteraciones según feedback.
 
+## Desarrollo por etapas de UniPrimera Respuesta
+
+### Fase 1: Corrección inicial del código
+Se recibió el código base en Dart para la app Flutter, incluyendo páginas como `anonimo_page.dart`, `button_countdown.dart`, y `emergency_choice_page.dart`. Se realizó un análisis profundo para corregir errores, eliminar código innecesario (como funciones no usadas y páginas duplicadas), corregir la navegación para que la app fuera más intuitiva (utilizando `Navigator.pop` para regresar en lugar de reiniciar pantallas), y limpiar imports redundantes. Se planteó una simplificación del botón de emergencia, eliminando la cuenta regresiva para lograr una respuesta inmediata. Además, se estableció la obligatoriedad de permisos de localización GPS y un cuestionario con preguntas claves en lógica sí/no para optimizar la recopilación de información en emergencias.
+
+### Fase 2: Añadido de funcionalidades y navegación optimizada
+Se implementaron cambios solicitados para mejorar la experiencia de usuario, entre ellos:
+- Remodelación de la pantalla principal para capturar nombre, apellido y documento de identidad con almacenamiento local usando `shared_preferences` para evitar la repetición.
+- Eliminación del contador en el botón de emergencia para permitir activación rápida.
+- Diseño de un cuestionario vital e interactivo con lógica condicional para saltar preguntas según las respuestas y limitar descripciones a 100 palabras.
+- Creación de una construcción automática del reporte en formato JSON, incluyendo respuestas de usuario y geolocalización.
+- Adición de una pantalla de confirmación con resumen y un botón para volver al inicio.
+- Integración completa del idioma español en la interfaz para mejor usabilidad.
+- Bloqueo del envío del reporte si el usuario no concede los permisos de ubicación.
+
+### Fase 3: Depuración de errores y configuraciones
+Se abordaron varios problemas técnicos:
+- Corrección de la llamada a número telefónico con el modo `LaunchMode.externalApplication` para evitar errores de compatibilidad.
+- Renombramiento de archivos y ajuste en la estructura para evitar errores de compilación (`anonimo_page.dart` a `emergency_button_page.dart`).
+- Correcciones en importaciones, adicionando paquetes necesarios como `flutter/services.dart` para el funcionamiento correcto de `SystemNavigator`.
+- Mejoras en la gestión de errores en el envío del reporte, añadiendo logs detallados para detectar timeouts o problemas de conexión.
+- Centralización de configuraciones en un archivo `config.dart` para facilitar actualizaciones de URL y direcciones IP sin recompilar la app.
+
+### Fase 4: Configuración del servidor y uso de túneles
+Se trabajó en la explotación operativa del backend:
+- Se enfrentaron problemas de IP dinámica y firewall, con instrucciones para abrir el puerto 3000 con UFW.
+- Se recomendó el uso de servicios de túneles como Ngrok o Localtunnel para exponer el servidor local a internet con URL fija y estable.
+- Se corrigieron las instrucciones de instalación y ejecución de los túneles, así como la integración en el código para detectar si la app corre en emulador o dispositivo real, adaptando la URL de servidor correspondientemente.
+- Se añadieron soluciones específicas para modelos Xiaomi, relacionados con permisos especiales y optimización de batería para evitar bloqueos.
+
+### Fase 5: Documentación y finalización
+Finalmente, se elaboró un informe detallado para documentar el proyecto:
+- Se redactó un README profesional, que incluyó presentación del proyecto, funcionalidades implementadas, instrucciones detalladas de instalación, uso y despliegue, así como roadmap para mejoras futuras.
+- Se corrigieron omisiones, añadiendo información sobre APK disponible en el repositorio, configuración del servidor y guía concreta para el uso del subdominio en Localtunnel.
+- Se propusieron instrucciones para pruebas tanto en emulador como en dispositivo real.
+- Se planeó integraciones futuras y mejoras basadas en feedback y escalabilidad.
+
 ## Evidencias de validación con usuarios, expertos o actores relevantes
 
 El proceso incluyó entrevistas con miembros de la comunidad, simulacros internos y consulta con responsables de CEPRAE. El feedback recogido respaldó el valor del sistema propuesto.  
@@ -191,7 +228,4 @@ El proceso incluyó entrevistas con miembros de la comunidad, simulacros interno
 | Paul Marie Emptoz                   | pemptoz@unal.edu.co      | Computación de Sistemas             |
 | Flor Mariana Marulanda Cárdenas     | fmarulandac@unal.edu.co  | Ingeniería Civil                    |
 | Juan José Vargas León               | juvargasle@unal.edu.co   | Ingeniería Civil                    |
-
-
-
 
