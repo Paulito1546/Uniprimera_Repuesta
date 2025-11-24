@@ -28,8 +28,8 @@ app.post('/sendmail', (req, res) => {
   const { to, subject, text } = req.body;
 
   const mailOptions = {
-    from: 'paul.emptoz@gmail.com',
-    to : 'paul.emptoz@gmail.com',
+    from: 'nombre.apellido@gmail.com',
+    to : 'nombre.apellido@gmail.com',
     subject,
     text
   };
