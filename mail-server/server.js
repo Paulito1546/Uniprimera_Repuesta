@@ -20,7 +20,7 @@ transporter.verify(function(error, success) {
   if (error) {
     console.log(error);
   } else {
-    console.log("Serveur prêt à envoyer des mails");
+    console.log("Servidor listo para enviar correos electrónicos");
   }
 });
 
@@ -37,13 +37,13 @@ app.post('/sendmail', (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
-      return res.status(500).send('Erreur d’envoi');
+      return res.status(500).send('Error al enviar');
     }
-    console.log('Email envoyé: ' + info.response);
-    res.status(200).send('Mail envoyé');
+    console.log('Correo electrónico enviado: ' + info.response);
+    res.status(200).send('Correo enviado');
   });
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Serveur en écoute sur http://0.0.0.0:${port}`);
+  console.log(`Servidor a la escucha en http://0.0.0.0:${port}`);
 });
