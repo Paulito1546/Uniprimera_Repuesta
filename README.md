@@ -59,6 +59,8 @@ Estas adiciones transformarían el prototipo en una solución completa, escalabl
 
 El repositorio está disponible en GitHub (asumiendo URL: https://github.com/TonUsername/Uniprimera_Repuesta). Sigue estos pasos para clonar, instalar y ejecutar. Requiere Flutter instalado (https://flutter.dev/install). Dos opciones: emulador (PC) o teléfono real (Android).
 
+**Importante:** Para el servidor, modifica la dirección de correo electrónico en server.js (por ejemplo: «nombre.apellido@gmail.com» → tu dirección de correo electrónico personal para probar el envío real).
+
 **Requisitos Comunes** :  
 - Instala Flutter (versión ≥3.9.2).  
 - Git para clonar.  

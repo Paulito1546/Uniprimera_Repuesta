@@ -11,8 +11,8 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'paul.emptoz@gmail.com',
-    pass: 'zhdk cjhv jhfv lzrx'
+    user: 'nombre.apellido@gmail.com',
+    pass: 'tu contraseña'
   }
 });
 
@@ -45,5 +45,5 @@ app.post('/sendmail', (req, res) => {
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor a la escucha en http://0.0.0.0:${port}`);
+  console.log(`Servidor en escucha en http://0.0.0.0:${port}`);
 });
