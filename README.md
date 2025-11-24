@@ -1,109 +1,206 @@
-### Informe Completo del Prototipo de la Aplicación "Uniprimera Respuesta"
+# README profesional de UniPrimera Respuesta
 
-#### 1. Presentación de la Aplicación, su Objetivo y su Utilidad
+***
 
-La aplicación "Uniprimer Respuesta" es un prototipo desarrollado en Flutter (framework cross-platform de Google) diseñado para facilitar la respuesta rápida a emergencias en entornos institucionales, como universidades o empresas. Su objetivo principal es permitir a los usuarios reportar incidentes de emergencia de manera sencilla y eficiente, enviando información crítica a los servicios de respuesta (por ejemplo, a través de un correo electrónico con datos estructurados en JSON) y activando una llamada automática a un número de extensión interna (88888).
+**Aplicación móvil interdisciplinaria para la gestión rápida y eficiente de emergencias en campus universitario**
 
-Esta aplicación es particularmente útil en contextos donde la rapidez y la precisión son esenciales, como en campus universitarios (inspirado en la Universidad Nacional de Colombia). Permite a los usuarios anónimos o identificados alertar sobre emergencias como accidentes eléctricos, químicos, quemaduras o otros, incluyendo detalles vitales como la localización GPS y el estado de la víctima. Su utilidad radica en:
-- **Reducción del tiempo de respuesta**: Automatiza el envío de datos y la llamada, evitando demoras en comunicación manual.
-- **Privacidad y seguridad**: Utiliza datos sensibles (como localización) solo para emergencias, con persistencia local de información personal para reutilización.
-- **Accesibilidad**: Interfaz simple y en español, compatible con Android (y potencialmente iOS).
-- **Escalabilidad**: Fácil integración con servidores backend para notificaciones push o bases de datos.
+## Descripción general del proyecto
 
-En resumen, "Uniprimer Respuesta" empodera a los usuarios para actuar como primeros respondedores, potenciando la seguridad colectiva en entornos educativos o laborales.
+UniPrimera Respuesta es una iniciativa desarrollada por un equipo interdisciplinario para enfrentar la reacción tardía ante emergencias en campus universitarios. El proyecto responde a la necesidad institucional de articular un llamado de auxilio rápido y eficiente sin recurrir al teléfono, permitiendo la asistencia de emergencias mediante una app móvil y un botón físico. La solución integra rutas de acción definidas, activación de alertas inmediatas y coordinación con el Centro de Prevención y Respuesta a Emergencias (CEPRAE) de la universidad. Gracias al uso de tecnología móvil y nodos físicos, se busca fortalecer la cultura de prevención, aumentar la resiliencia institucional y posicionar a la universidad como actor activo en la gestión de riesgo y atención temprana de emergencias.[1][2]
 
-#### 2. Explicación de las Funcionalidades Presentes
+## Problema que resuelve
 
-El prototipo actual incluye las siguientes funcionalidades clave, implementadas para un flujo completo de reporte de emergencias. A continuación, se describe cada una, dejando espacio para insertar capturas de pantalla o fotos del prototipo en acción.
+En los campus universitarios, la atención de emergencias suele enfrentar retrasos significativos debido a la desarticulación de canales de alerta. El sistema tradicional demanda el uso de teléfono y procedimientos manuales que resultan poco ágiles ante situaciones de riesgo, poniendo en peligro la integridad de los estudiantes, docentes y personal administrativo. **UniPrimera Respuesta** soluciona este problema mediante un sistema automatizado que reduce el tiempo de reacción desde la ocurrencia de la emergencia hasta la activación del protocolo de atención institucional, centralizando la alerta y facilitando la comunicación directa y efectiva entre los usuarios y los responsables de atención primaria.[2][1]
 
-- **Pantalla de Inicio (Ingreso de Datos Personales)**: Al abrir la app, el usuario ingresa su primer nombre, apellido y número de documento de identidad. Estos datos se guardan localmente (usando `shared_preferences`) para autocompletar en usos futuros, evitando repetir información. Obliga a aceptar condiciones de uso y permisos de localización GPS la primera vez.  
-  [Espacio para foto: Captura de la pantalla de inicio con campos de texto y botón "Continuar"].
+## Justificación del valor aportado
 
-- **Botón de Emergencia Principal**: Una interfaz simple con un botón rojo grande (imagen asset `buton.png`) que, al tocarse, lleva directamente a la selección de tipo de emergencia. No hay cuenta regresiva para simplicidad y rapidez.  
-  [Espacio para foto: Captura del botón de emergencia con logo y notificaciones].
+- **Mejora la rapidez y calidad en la atención de situaciones críticas.**
+- Facilita la inclusión de toda la comunidad universitaria como potenciales primeros respondedores.
+- Promueve una cultura organizacional proactiva y resiliente.
+- Implementa tecnología accesible y escalable.
+- Reduce el riesgo de omisión o demoras por desinformación o falta de acceso.[1][2]
 
-- **Selección de Tipo de Emergencia**: El usuario elige entre "Electricidad", "Químico", "Quemadura" o "Otro". Para "Otro", se abre una subpantalla con opciones adicionales (Caídas, Afección Cardíaca, Psicológicas, Pérdida de conciencia, Intoxicación por sustancias).  
-  [Espacio para foto: Captura de la lista de tipos de emergencia con iconos].
+## Relación con las necesidades del usuario/cliente
 
-- **Cuestionario Rápido**: Después de seleccionar el tipo, un cuestionario interactivo:  
-  - Primera pregunta: "¿Soy yo la persona que tiene una emergencia?".  
-  - Si "Sí": Directo a descripción (campo de texto limitado a 100 palabras).  
-  - Si "No": Preguntas vitales secuenciales ("¿Respira?", "¿Está inconsciente?", "¿Responde de manera coherente?"). Si "Sí" a cualquiera, salta al resto y va a descripción.  
-  - Obliga acceso a localización GPS (si denegado, bloquea envío).  
-  [Espacio para foto: Captura del cuestionario con botones Sí/No y campo de descripción].
+El producto responde directamente a los requerimientos expresados por usuarios (estudiantes, docentes, administrativos) y responsables institucionales en cuanto a seguridad y respuesta ante emergencias. La solución privilegia la usabilidad, rapidez, privacidad y accesibilidad, integrando procesos que facilitan el reporte de incidencias y la activación de rutas de atención.[2][1]
 
-- **Envío del Reporte y Llamada Automática**: Construye un JSON con datos (ponente, identidad, tipo, respuestas, descripción, localización). Envía vía POST HTTP al servidor (ej.: Localtunnel o IP). Si éxito (status 200), llama automáticamente al número "6013165000,88888" (vía `url_launcher`).  
-  [Espacio para foto: Captura de la confirmación de envío].
+## Objetivos del proyecto
 
-- **Pantalla de Confirmación**: Muestra éxito con resumen (tipo, reportador, víctima), mensaje de gracias y botón "Volver al inicio".  
-  [Espacio para foto: Captura de la pantalla de confirmación].
+### Objetivo general
+Desarrollar una solución tecnológica integrada (app móvil y botón físico) que articule la reacción ante emergencias en campus universitario, facilitando el llamado rápido y la coordinación con entidades responsables de atención.[1]
 
-- **Otras**: Assets (logo, botón), persistencia datos, navegación fluida.
+### Objetivos específicos
+- Implementar una app móvil con flujos optimizados para reportar incidencias en tres clics o menos.
+- Diseñar e instalar prototipos funcionales de botones físicos ubicados en puntos estratégicos del campus.
+- Integrar la identificación y geolocalización automática de usuarios al reporte de emergencia.
+- Establecer protocolos ágiles de comunicación y validación con el CEPRAE.
+- Probar el sistema en simulacros reales y recoger feedback para validación y mejora continua.[2][1]
 
-#### 3. Funcionalidades No Implementadas pero Deseadas para Futuras Iteraciones
+## Tecnologías utilizadas
 
-Si el proyecto es seleccionado para avanzar, planeamos agregar las siguientes funcionalidades para hacer la app más robusta y completa. Estas están en fase de diseño y requieren recursos adicionales (desarrollo, testing, integración).
+| Componentes     | Tecnología                 | Detalle                                                      |
+|:--------------- |:------------------------- |:------------------------------------------------------------ |
+| Frontend        | Flutter (Dart)            | Framework multiplataforma, interfaz móvil                    |
+| Backend         | Node.js, Express          | API RESTful, manejo de envío email                           |
+| Email           | Nodemailer                | Configuración SMTP (Gmail) para notificaciones               |
+| Infraestructura | Localtunnel               | Exposición de servidor local para pruebas externas           |
+| Librerías       | http, geolocator, shared_preferences, device_info_plus, url_launcher |
+| Base de datos   | No implementada           | (Se prevé integración futura)                                |
 
-- **Integración con Servicios de Emergencia Reales**: Conexión con APIs de servicios de emergencia locales (ej.: bomberos, policía en Colombia) para el envío automático de alertas, incluyendo mapas interactivos (a través de Google Maps API).
-- **Notificaciones Push**: Usando Firebase Cloud Messaging para notificar a administradores o usuarios cercanos de una emergencia en tiempo real.
-- **Autenticación y Perfiles**: Login con correo UNAL o Google, perfiles con historial de reportes, para usuarios registrados (en vez de anónimos).
-- **Multimedia en Reportes**: Adjuntar fotos/vídeos de la escena (usando camera plugin), y análisis básico de IA (por ejemplo: detectar gravedad usando ML Kit).
-- **Soporte iOS y Multidispositivos**: Optimización para iOS (Apple Maps para localización), y versión web/escritorio.
-- **Análisis de Datos**: Dashboard backend para estadísticas de emergencias (por ejemplo: mapas de calor de incidentes).
-- **Multilengua y Accesibilidad**: Soporte de inglés/francés, voice-to-text para descripción, modo oscuro.
-- **Seguridad Avanzada**: Encriptación de datos (HTTPS obligatorio), cumplimiento GDPR para datos sensibles.
+## Arquitectura del sistema
 
-Estas adiciones transformarían el prototipo en una solución completa, escalable para instituciones.
+El sistema está compuesto por los siguientes módulos:
 
-#### 4. Instrucciones para Instalar y Ejecutar el Prototipo desde GitHub
-
-El repositorio está disponible en GitHub (asumiendo URL: https://github.com/TonUsername/Uniprimera_Repuesta). Sigue estos pasos para clonar, instalar y ejecutar. Requiere Flutter instalado (https://flutter.dev/install). Dos opciones: emulador (PC) o teléfono real (Android).
-
-**Importante:** Para el servidor, modifica la dirección de correo electrónico en server.js (por ejemplo: «nombre.apellido@gmail.com» → tu dirección de correo electrónico personal para probar el envío real).
-
-**Requisitos Comunes** :  
-- Instala Flutter (versión ≥3.9.2).  
-- Git para clonar.  
-- Terminal para comandos.
-
-**Etapa 1 : Clonar el Repositorio**  
-```bash
-git clone https://github.com/TonUsername/Uniprimera_Repuesta.git
-cd Uniprimera_Repuesta
-flutter pub get  # Instala dependencias (http, geolocator, etc.)
+```ascii
++---------------------------+
+|   App Flutter (Frontend)  |
++-----+-------------+-------+
+      |             |
+      v             v
++----------+  +--------------+
+| Nodo Físico|  |Servidor Node|
++----------+  +--------------+
+      |         |
++---------------------------+
+|CEPRAE / Notificaciones    |
++---------------------------+
 ```
 
-**Etapa 2 : Configurar y Ejecutar el Servidor Backend (`server.js`)**  
-El servidor Node.js es necesario para recibir y procesar los reportes (envío de correo).  
-1. Ve a la carpeta del servidor (si está separada, o dentro del repo).  
-2. Instala dependencias: `npm install express` (si no está instalado).  
-3. Modifica `server.js` si es necesario (ejemplo: escucha en 0.0.0.0:3000).  
-4. Lanza: `node server.js` – debe mostrar "Servidor escuchando en http://0.0.0.0:3000".
+**Flujo de datos:**
 
-**Etapa 3 : Configurar Localtunnel para Acceso Público**  
-Localtunnel crea un túnel para exponer tu servidor local (para que la app pueda enviar desde el teléfono).  
-1. Instala: `npm install -g localtunnel` (globalmente).  
-2. Lanza: `lt --port 3000 --subdomain uniprimer` (cambia `uniprimer` por tu subdominio preferido – ej.: uniprimer2025 si está ocupado).  
-3. Obtén la URL: ej. `https://uniprimer.loca.lt` – úsala en el código de la app (`sendEmergencyReport`: `Uri.parse('https://uniprimer.loca.lt/sendmail')`).  
-4. Mantén la terminal abierta (túnel activo).
+1. El usuario inicia sesión e ingresa datos personales.
+2. Selecciona el tipo de emergencia y responde el cuestionario.
+3. La app envía un JSON al backend mediante HTTP POST.
+4. El backend procesa el reporte y envía una notificación por email.
+5. Se activa una llamada automática al protocolo de extensión CEPRAE.
+6. El usuario recibe confirmación y opción de volver al inicio.[3][4][2]
 
-**Opción 1 : Ejecutar en Emulador (en PC)**  
-Ideal para pruebas rápidas, sin teléfono.  
-1. Lanza emulador: `flutter emulators --launch pixel_6_api_33` (o tu emulador).  
-2. Ejecuta app: `flutter run`.  
-3. Prueba: La app se abre en emulador. Para envío de correo, inicia tu servidor local (`node server.js`) y Localtunnel/Ngrok (como antes) para URL pública.  
-[Espacio para foto: Captura del emulador con la app en ejecución].
+## Instalación y configuración en entorno local
 
-**Opción 2 : Ejecutar en Teléfono Real (Android)**  
-Para pruebas reales (localización GPS, llamada).  
-1. Descarga el APK desde GitHub (ya en `/build/app/outputs/flutter-apk/app-release.apk`).  
-2. Activa "Orígenes desconocidos" (Ajustes > Seguridad).  
-3. Instala el APK (por USB/email).  
-4. Lanza app. Para envío, asegúrate que servidor + Localtunnel están activos en PC.  
-[Espacio para foto: Captura del teléfono con la app instalada].
+### Requisitos previos
+- Flutter versión >=3.9.2
+- Node.js
+- Git
+- Terminal/Shell con permisos de administrador
+- Acceso a internet para descargar dependencias y exponer servidor[4][3][2]
 
-**Solución de problemas** : Si el envío falla, verifica la URL del servidor en el código y que Localtunnel esté activo. Para iOS, añade configuración Xcode (no implementado todavía).
-.
+### Dependencias principales
+- Flutter: `http`, `shared_preferences`, `geolocator`, `device_info_plus`, `url_launcher`
+- Node.js: `express`, `nodemailer`, `body-parser`
+- Localtunnel
 
+### Instalación paso a paso
+
+#### 1. Clona el repositorio
+```bash
+git clone https://github.com/TuUsuario/UniPrimera_Respuesta.git
+cd UniPrimera_Respuesta
+flutter pub get # Instala dependencias
+```
+
+#### 2. Configura el servidor backend
+```bash
+cd servidor/
+npm install express nodemailer body-parser
+node server.js
+```
+Asegúrate que el servidor escuche en `0.0.0.0:3000`.
+
+#### 3. Exponer el servidor con Localtunnel
+```bash
+npm install -g localtunnel
+lt --port 3000 --subdomain uniprimer
+```
+Configura la URL en el código Flutter según el subdominio generado.
+
+#### 4. Configura variables de entorno
+- Edita `server.js` con tu correo y credenciales SMTP reales para el envío.
+- En la app, cambia la URL de envío (`LOCALTUNNEL_URL` y/o `EMULATOR_FALLBACK_URL`) si usas tu propio túnel.
+
+#### 5. Ejecución y pruebas
+- Ejecuta la app en emulador o dispositivo real:
+```bash
+flutter run
+```
+- Instala el APK en Android o ejecuta desde USB/cable.
+- Lanza servidor y túnel antes de enviar reportes.
+
+### Solución a errores comunes
+- Verifica conectividad internet y estado activo de Localtunnel.
+- Revisa credenciales SMTP, puertos y permisos del firewall.
+- Si el envío falla, valida que la URL en código coincida con la de Localtunnel.
+
+## Guía de uso de la aplicación
+
+1. Abrir la aplicación y completar el registro (nombre, apellido, documento).
+2. Aceptar condiciones de uso y permisos de localización.
+3. Pulsar el botón de emergencia principal.
+4. Seleccionar el tipo de emergencia.
+5. Completar el cuestionario interactivo.
+6. Enviar el reporte: se activa email y llamada automática a la extensión institucional.
+7. Visualizar la pantalla de confirmación y volver al inicio.
+
+**Ejemplo de interacción:**  
+Usuario identifica accidente químico, pulsa botón, selecciona \"Químico\", describe la situación y envía el reporte.  
+La app demuestra mensaje \"¡Alerta enviada con éxito!\" y activa extensión 88888.[4][2]
+
+## Explicación de la interfaz y/o endpoints
+
+- **Pantalla de inicio:** Ingreso de datos personales, acepta términos y permisos.[4][2]
+- **Botón de emergencia:** Lleva a la selección del tipo de incidente.
+- **Selección de emergencia y cuestionario:** Interactivo y adaptativo según la situación.
+- **Envío de reporte:** POST HTTP hacia el servidor, con datos estructurados en JSON.
+
+## Metodología de desarrollo utilizada
+
+El desarrollo fue guiado por la metodología **Design Thinking**, abordando cinco fases:
+1. *Empatizar* con usuarios y expertos para identificar riesgos.
+2. *Definir* el problema central de desarticulación ante emergencias.
+3. *Idear* alternativas innovadoras de respuesta y reporte.
+4. *Prototipar* simulacros, app y esquema físico para validación rápida.
+5. *Testear* funcionalidades con actores clave y diseñar iteraciones según feedback.[1]
+
+## Evidencias de validación con usuarios, expertos o actores relevantes
+
+El proceso incluyó entrevistas con miembros de la comunidad, simulacros internos y consulta con responsables de CEPRAE. El feedback recogido respaldó el valor del sistema propuesto.  
+**Nota:** Si existe material o cifras concretas de validación no presente en archivos, indícalo en la sección \"Información pendiente\".[1]
+
+## Relación explícita con los criterios del jurado
+
+- Solución al problema real de emergencia en campus universitario.
+- Desarrollo de prototipo funcional validado con actores relevantes.
+- Avance significativo en construcción, materiales y despliegue de sistema.
+- Aplicación interdisciplinaria (ingeniería civil, mecatrónica, eléctrica, ciencias sociales).
+- Trabajo colaborativo integrando aportes de todos los miembros.[1]
+
+## Roadmap / Mejoras futuras
+
+- Integrar APIs públicas de servicios de emergencia.
+- Notificaciones push y perfiles de usuario.
+- Adjuntar multimedia y análisis IA.
+- Expansión a iOS, web.
+- Dashboard de estadísticas y mapas de calor.
+- Mejoras de accesibilidad y seguridad avanzada.[2]
+
+## Autores, roles y contribuciones individuales
+
+| Nombre                             | Correo                   | Carrera                             |
+| ----------------------------------- | ------------------------ | ----------------------------------- |
+| Patricia Perez Gabil Roso           | pperezgar@unal.edu.co       | Ingeniería civil                    |
+| María Fernanda Aguasaco Arévalo     | maguasacoa@unal.edu.co   | Antropología                        |
+| Héctor Andrés Aponte Porras         | haponte@unal.edu.co      | Ingeniería Mecatrónica              |
+| Daniel Fernando Chacon Quintero     | dchaconq@unal.edu.co     | Ingeniería Eléctrica                |
+| Paul Marie Emptoz                   | pemptoz@unal.edu.co      | Computación de Sistemas             |
+| Flor Mariana Marulanda Cárdenas     | fmarulandac@unal.edu.co  | Ingeniería Civil                    |
+| Juan José Vargas León               | juvargasle@unal.edu.co   | Ingeniería Civil                    |
+
+
+
+## Información pendiente
+
+- No se encontraron cifras detalladas de validación con usuarios reales (ejemplo: estadísticas de uso, encuestas de satisfacción).
+- No se especifican contribuciones individuales más allá de nombre/carrera/correo.
+- No consta licencia formal en los documentos revisados.
+- No aparecen capturas de pantalla: se recomienda incluirlas en futuras ediciones.
 
 
