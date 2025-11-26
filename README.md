@@ -218,7 +218,7 @@ El proceso incluyó entrevistas con miembros de la comunidad, simulacros interno
 - Notificaciones push y perfiles de usuario.
 - Adjuntar multimedia y análisis IA.
 - Expansión a iOS, web.
-- Dashboard de estadísticas y mapas de calor.
+- Dashboard de estadísticas (como Power BI).
 - Mejoras de accesibilidad y seguridad avanzada.
 
 ## Autores, roles y contribuciones individuales
