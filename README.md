@@ -6,7 +6,7 @@
 
 ## Descripción general del proyecto
 
-UniPrimera Respuesta es una iniciativa desarrollada por un equipo interdisciplinario para enfrentar la reacción tardía ante emergencias en campus universitarios. El proyecto responde a la necesidad institucional de articular un llamado de auxilio rápido y eficiente sin recurrir al teléfono, permitiendo la asistencia de emergencias mediante una app móvil y un botón físico. La solución integra rutas de acción definidas, activación de alertas inmediatas y coordinación con el Centro de Prevención y Respuesta a Emergencias (CEPRAE) de la universidad. Gracias al uso de tecnología móvil y nodos físicos, se busca fortalecer la cultura de prevención, aumentar la resiliencia institucional y posicionar a la universidad como actor activo en la gestión de riesgo y atención temprana de emergencias.
+UniPrimera Respuesta es una iniciativa desarrollada por un equipo interdisciplinario para enfrentar la reacción tardía ante emergencias en campus universitarios. El proyecto responde a la necesidad institucional de articular un llamado de auxilio rápido y eficiente sin recurrir al teléfono, permitiendo la asistencia de emergencias mediante una app móvil y un botón físico. La solución integra rutas de acción definidas, activación de alertas inmediatas y coordinación con el Centro de Prevención y Respuesta a Emergencias (CEPRAE) de la universidad. Gracias al uso de tecnología móvil, se busca fortalecer la cultura de prevención, aumentar la resiliencia institucional y posicionar a la universidad como actor activo en la gestión de riesgo y atención temprana de emergencias.
 
 ## Problema que resuelve
 
@@ -29,8 +29,7 @@ El producto responde directamente a los requerimientos expresados por usuarios (
 Desarrollar una solución tecnológica integrada (app móvil y botón físico) que articule la reacción ante emergencias en campus universitario, facilitando el llamado rápido y la coordinación con entidades responsables de atención.
 
 ### Objetivos específicos
-- Implementar una app móvil con flujos optimizados para reportar incidencias en tres clics o menos.
-- Diseñar e instalar prototipos funcionales de botones físicos ubicados en puntos estratégicos del campus.
+- Implementar una app móvil con flujos optimizados para reportar incidencias en 7 clics o menos.
 - Integrar la identificación y geolocalización automática de usuarios al reporte de emergencia.
 - Establecer protocolos ágiles de comunicación y validación con el CEPRAE.
 - Probar el sistema en simulacros reales y recoger feedback para validación y mejora continua.
@@ -54,12 +53,12 @@ El sistema está compuesto por los siguientes módulos:
 +---------------------------+
 |   App Flutter (Frontend)  |
 +-----+-------------+-------+
-      |             |
-      v             v
-+----------+  +--------------+
-| Nodo Físico|  |Servidor Node|
-+----------+  +--------------+
-      |         |
+                |
+                v 
+       +--------------+
+       |Servidor Node|
+       +--------------+
+              |
 +---------------------------+
 |CEPRAE / Notificaciones    |
 +---------------------------+
@@ -202,7 +201,7 @@ Finalmente, se elaboró un informe detallado para documentar el proyecto:
 
 ## Evidencias de validación con usuarios, expertos o actores relevantes
 
-El proceso incluyó entrevistas con miembros de la comunidad, simulacros internos y consulta con responsables de CEPRAE. El feedback recogido respaldó el valor del sistema propuesto.  
+El proceso incluyó entrevistas con miembros de la comunidad, simulacros internos y consulta con responsables de CEPRAE. 
 
 ## Relación explícita con los criterios del jurado
 
@@ -217,9 +216,10 @@ El proceso incluyó entrevistas con miembros de la comunidad, simulacros interno
 - Integrar APIs públicas de servicios de emergencia.
 - Notificaciones push y perfiles de usuario.
 - Adjuntar multimedia y análisis IA.
-- Expansión a iOS, web.
+- Expansión a iOS.
 - Dashboard de estadísticas (como Power BI).
 - Mejoras de accesibilidad y seguridad avanzada.
+- Añadir una parte "Que hacer ?" que permitiría dar instrucciones sobre cómo comportarse correctamente en caso de emergencia.
 
 ## Autores, roles y contribuciones individuales
 
