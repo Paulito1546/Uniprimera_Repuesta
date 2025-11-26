@@ -74,6 +74,8 @@ El sistema está compuesto por los siguientes módulos:
 5. Se activa una llamada automática al protocolo de extensión CEPRAE.
 6. El usuario recibe confirmación y opción de volver al inicio.
 
+![](presentacion.mp4)
+
 ## Instalación y configuración en entorno local
 
 ### Requisitos previos
