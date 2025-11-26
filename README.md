@@ -15,7 +15,6 @@ En los campus universitarios, la atención de emergencias suele enfrentar retras
 ## Justificación del valor aportado
 
 - **Mejora la rapidez y calidad en la atención de situaciones críticas.**
-- Facilita la inclusión de toda la comunidad universitaria como potenciales primeros respondedores.
 - Promueve una cultura organizacional proactiva y resiliente.
 - Implementa tecnología accesible y escalable.
 - Reduce el riesgo de omisión o demoras por desinformación o falta de acceso
